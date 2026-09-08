@@ -189,6 +189,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  badBadZone: 0
+  explodeyTime: 3
 --- !u!23 &62136814
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -708,6 +710,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  badBadZone: 1
+  explodeyTime: 3
 --- !u!23 &478848961
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -929,6 +933,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  badBadZone: 1
+  explodeyTime: 3
 --- !u!23 &702888758
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1223,6 +1229,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  badBadZone: 1
+  explodeyTime: 3
 --- !u!23 &1186228511
 MeshRenderer:
   m_ObjectHideFlags: 0
