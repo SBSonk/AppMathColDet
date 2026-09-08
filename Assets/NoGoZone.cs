@@ -1,6 +1,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class NoGoZone : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class NoGoZone : MonoBehaviour
     public UnityEvent IGotEntered, IGotExited;
 
     Vector3 _startPos;
+
+    public bool badBadZone;
+    public float explodeyTime = 3;
+    float _inMeTime;
 
     void Awake()
     {
@@ -47,16 +52,27 @@ public class NoGoZone : MonoBehaviour
             {
                 _material.color = Color.Lerp(_material.color, inColor, 10 * Time.deltaTime);
                 transform.position = Vector3.Lerp(transform.position, _startPos + ((new Vector3(1, 0, 1) * shakeIntensity) * Mathf.Sin(frequency * Time.deltaTime)), 0.25f);
+
+                if (badBadZone)
+                {
+                    _inMeTime += Time.deltaTime;
+
+                    if (_inMeTime >= explodeyTime) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                }
             } else
             {
                 _material.color = Color.Lerp(_material.color, warningColor, 10 * Time.deltaTime);
                 transform.position = _startPos;
+                
+                _inMeTime = 0;
             }
         } 
         else
         {
             _material.color = Color.Lerp(_material.color, outColor, 10 * Time.deltaTime);
             transform.position = _startPos;
+
+            _inMeTime = 0;
         }
     }
     
