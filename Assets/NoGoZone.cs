@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,8 +7,11 @@ public class NoGoZone : MonoBehaviour
     public Transform player;
     public float playerDiameter = 1;
     public float cubeDiameter = 1;
+    public float warningDiameter = 1.5f;
 
-    public Color outColor, inColor;
+    public float shakeIntensity = 1, frequency = 1;
+
+    public Color outColor, warningColor, inColor;
 
     Renderer _meshRend;
     Material _material;
@@ -15,26 +19,48 @@ public class NoGoZone : MonoBehaviour
     bool _enterFlagged, _exitFlagged;
     public UnityEvent IGotEntered, IGotExited;
 
+    Vector3 _startPos;
+
     void Awake()
     {
         if (!player) player = GameObject.FindGameObjectWithTag("Player").transform;
 
         _meshRend = GetComponent<Renderer>();
         _material = _meshRend.material;
+
+        _startPos = transform.position;
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, Vector3.one * cubeDiameter);
+        Gizmos.color = Color.pink;
+        Gizmos.DrawWireCube(transform.position, Vector3.one * (cubeDiameter + warningDiameter));
     }
 
     void Update()
     {
-        _material.color = Color.Lerp(_material.color, IsPlayerInsideMe() ? inColor : outColor, 10 * Time.deltaTime);
+        if (IsPlayerInsideMe(cubeDiameter + warningDiameter))
+        {
+            if (IsPlayerInsideMe(cubeDiameter))
+            {
+                _material.color = Color.Lerp(_material.color, inColor, 10 * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, _startPos + ((new Vector3(1, 0, 1) * shakeIntensity) * Mathf.Sin(frequency * Time.deltaTime)), 0.25f);
+            } else
+            {
+                _material.color = Color.Lerp(_material.color, warningColor, 10 * Time.deltaTime);
+                transform.position = _startPos;
+            }
+        } 
+        else
+        {
+            _material.color = Color.Lerp(_material.color, outColor, 10 * Time.deltaTime);
+            transform.position = _startPos;
+        }
     }
     
-    bool IsPlayerInsideMe()
+    bool IsPlayerInsideMe(float cubeDiameter)
     {
         bool HesInsideMe = false;
 

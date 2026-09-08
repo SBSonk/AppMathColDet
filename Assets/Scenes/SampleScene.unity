@@ -153,7 +153,11 @@ MonoBehaviour:
   player: {fileID: 0}
   playerDiameter: 1
   cubeDiameter: 1.43553
+  warningDiameter: 1.5
+  shakeIntensity: 1
+  frequency: 1
   outColor: {r: 0.12300229, g: 1, b: 0, a: 0.2509804}
+  warningColor: {r: 1, g: 0.9861299, b: 0.5424528, a: 0}
   inColor: {r: 0.23760104, g: 1, b: 0, a: 0.5019608}
   IGotEntered:
     m_PersistentCalls:
@@ -668,7 +672,11 @@ MonoBehaviour:
   player: {fileID: 0}
   playerDiameter: 1
   cubeDiameter: 3
-  outColor: {r: 1, g: 0.5424528, b: 0.5424528, a: 0.2509804}
+  warningDiameter: 1.5
+  shakeIntensity: 5
+  frequency: 3
+  outColor: {r: 1, g: 0.8820755, b: 0.8820755, a: 0.2509804}
+  warningColor: {r: 1, g: 0.69177663, b: 0.16509432, a: 0.50980395}
   inColor: {r: 1, g: 0, b: 0, a: 0.5019608}
   IGotEntered:
     m_PersistentCalls:
@@ -885,7 +893,11 @@ MonoBehaviour:
   player: {fileID: 0}
   playerDiameter: 1
   cubeDiameter: 5.4396
-  outColor: {r: 1, g: 0.5424528, b: 0.5424528, a: 0.2509804}
+  warningDiameter: 1.5
+  shakeIntensity: 5
+  frequency: 3
+  outColor: {r: 1, g: 0.8820755, b: 0.8820755, a: 0.2509804}
+  warningColor: {r: 1, g: 0.69177663, b: 0.16509432, a: 0.50980395}
   inColor: {r: 1, g: 0, b: 0, a: 0.5019608}
   IGotEntered:
     m_PersistentCalls:
@@ -1175,7 +1187,11 @@ MonoBehaviour:
   player: {fileID: 0}
   playerDiameter: 1
   cubeDiameter: 3.8751
-  outColor: {r: 1, g: 0.5424528, b: 0.5424528, a: 0.2509804}
+  warningDiameter: 1.5
+  shakeIntensity: 5
+  frequency: 3
+  outColor: {r: 1, g: 0.8820755, b: 0.8820755, a: 0.2509804}
+  warningColor: {r: 1, g: 0.69177663, b: 0.16509432, a: 0.50980395}
   inColor: {r: 1, g: 0, b: 0, a: 0.5019608}
   IGotEntered:
     m_PersistentCalls:
