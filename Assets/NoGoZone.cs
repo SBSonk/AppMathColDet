@@ -24,6 +24,8 @@ public class NoGoZone : MonoBehaviour
 
     public bool badBadZone;
     public float explodeyTime = 3;
+
+    public bool destroyOnEnter;
     float _inMeTime;
 
     void Awake()
@@ -101,6 +103,11 @@ public class NoGoZone : MonoBehaviour
             IGotEntered?.Invoke();
             _enterFlagged = true;
             _exitFlagged = false;
+
+            if (destroyOnEnter)
+            {
+                Destroy(gameObject);
+            }
         } else if (!HesInsideMe && !_exitFlagged)
         {
             IGotExited?.Invoke();

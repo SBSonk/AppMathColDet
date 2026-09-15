@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -6,8 +7,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        float xIn = Input.GetAxisRaw("Horizontal");
+        float yIn = Input.GetAxisRaw("Vertical");
 
-        transform.position += input * moveSpeed * Time.deltaTime;
+        if (Mathf.Abs(xIn) > 0 && Mathf.Abs(yIn) < .25f) 
+        {
+            transform.position += Vector3.right * moveSpeed * Time.deltaTime * xIn;
+            return;
+        }
+
+        if (Mathf.Abs(yIn) > 0) 
+        {
+            transform.position += Vector3.forward * moveSpeed * Time.deltaTime * yIn;
+            return;
+        }
     }
 }
