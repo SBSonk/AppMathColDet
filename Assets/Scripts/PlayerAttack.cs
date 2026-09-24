@@ -59,10 +59,10 @@ public class PlayerAttack : MonoBehaviour
     {
         for (int i = 0; i < _queuedBullets.Count; i++)
         {
-            float _localTime = _scaledTime + (360f / bulletCount) * i;
+            float localTime = _scaledTime + (360f / bulletCount) * i;
         
-            float xPos = Mathf.Sin(_localTime * Mathf.Deg2Rad);
-            float zPos = Mathf.Cos(_localTime * Mathf.Deg2Rad);
+            float xPos = Mathf.Sin(localTime * Mathf.Deg2Rad);
+            float zPos = Mathf.Cos(localTime * Mathf.Deg2Rad);
 
             _queuedBullets[i].transform.localPosition = new Vector3(xPos, 0, zPos) * holdRadius;
         }
