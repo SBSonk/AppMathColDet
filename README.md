@@ -2,6 +2,9 @@ Demo for my __Applied Mathematics for Games__ cool beans subject!
 
 ## APPMATHCOLDET
 
+### Turrets stuff
+https://drive.google.com/file/d/1pydekr9TolG1pczJW85MDfk4Y6TVvNrR/view?usp=sharing
+
 ### Here is the rocket barrage
 https://drive.google.com/file/d/1qxtMWQ7G02H8uz6LSz6rw0Z9VlTCQ6vO/view?usp=sharing
 
