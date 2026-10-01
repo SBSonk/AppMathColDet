@@ -50,7 +50,5 @@ public class HealthUI : MonoBehaviour
 
         healthBar.fillAmount = _targetRatio;
         healthBarGhost.fillAmount = _ghostRatio;
-
-        if (Input.GetKeyDown(KeyCode.Return)) SetHealthValue(_targetRatio - .1f);
     }
 }

@@ -4,6 +4,25 @@ namespace Helpers
 {
     public static class Ease
     {
+        public enum EaseType
+        {
+            Linear, InQuart, OutQuart, InOutQuart, InOutExpo
+        }
+
+        public static float EvaluateEaseType(EaseType ease, float t)
+        {
+            switch (ease)
+            {
+                case EaseType.Linear: return Linear(t);
+                case EaseType.InQuart: return InQuart(t);
+                case EaseType.OutQuart: return OutQuart(t);
+                case EaseType.InOutQuart: return InOutQuart(t);
+                case EaseType.InOutExpo: return InOutExpo(t);
+            }
+
+            return 0;
+        }
+
         public static float Linear(float t) => t;
 
         public static float InQuart(float t) => Mathf.Pow(t, 4);  
