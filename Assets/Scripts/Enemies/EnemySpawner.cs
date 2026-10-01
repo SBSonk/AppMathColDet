@@ -22,6 +22,8 @@ public class EnemySpawner : MonoBehaviour
     [Header("References")]
     [SerializeField] Spline mapSpline;
 
+    public Action<int> OnWaveComplete;
+
     int _enemiesLeftInWave;
     bool _isReady;
     int _roundIndex = 0;
@@ -65,6 +67,7 @@ public class EnemySpawner : MonoBehaviour
             _roundState = RoundState.PostRound;
             yield return new WaitForSeconds(roundEndBufferTime);
 
+            OnWaveComplete?.Invoke(_roundIndex);
             _roundIndex++;
         }
     }
@@ -78,8 +81,17 @@ public class EnemySpawner : MonoBehaviour
             follower.SetSpline(mapSpline);
             follower.SetSpeed(enemyStats.speed);
             follower.SetEase(enemyStats.easeType);
-        }
 
-        // connect death events
+            // connect death events
+            follower.OnReachEnd += () =>
+            {
+                Destroy(enemy);
+                _enemiesLeftInWave--;
+            };
+        }
     }
+
+    public int RoundNumber => _roundIndex + 1;
+    public int EnemiesLeft => _enemiesLeftInWave;
+    public string RoundPhase => _roundState.ToString();
 }
