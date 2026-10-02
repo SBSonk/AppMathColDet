@@ -17,7 +17,7 @@ public class SniperTurret : BaseTurret
         base.Awake();
     }
 
-    public override bool IsPlayerInDetectionArea()
+    public override bool IsEnemyInDetectionArea()
     {
         if (player == null) return false;
 
@@ -48,7 +48,7 @@ public class SniperTurret : BaseTurret
     {
         if (isLevelWon || player == null) return;
 
-        bool inSight = IsPlayerInDetectionArea();
+        bool inSight = IsEnemyInDetectionArea();
         if (inSight)
         {
             OnPlayerDetected();

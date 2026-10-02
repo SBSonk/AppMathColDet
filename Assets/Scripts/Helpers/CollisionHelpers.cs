@@ -1,3 +1,5 @@
+using System;
+using CustomCollision;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -56,6 +58,21 @@ namespace Helpers
             float sqrDist = Vector3.Dot(diff, diff);
             float radiusSum = radiusA + radiusB;
             return sqrDist <= radiusSum * radiusSum;
+        }
+
+        public static bool CollideBox(ColliderInfo boxA, ColliderInfo boxB)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool CollideSphere(ColliderInfo sphereA, ColliderInfo sphereB)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool CollideCubeWithSphere(ColliderInfo box, ColliderInfo sphere)
+        {
+            throw new NotImplementedException();
         }
 
         public static Vector3[] GenerateConeOutlinePoints(float range, float coneAngleDegrees, int arcSegments = 24)

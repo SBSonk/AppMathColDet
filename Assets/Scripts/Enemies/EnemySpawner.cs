@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Helpers;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public static EnemySpawner Instance;
+
     [Serializable]
     public class EnemyWave
     {
@@ -24,10 +27,21 @@ public class EnemySpawner : MonoBehaviour
 
     public Action<int> OnWaveComplete;
 
-    int _enemiesLeftInWave;
+    List<GameObject> _activeEnemies = new List<GameObject>();
     bool _isReady;
     int _roundIndex = 0;
     RoundState _roundState = RoundState.NotStarted;
+
+    void Awake()
+    {
+        if (!Instance) Instance = this;
+        else Destroy(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
 
     void Start()
     {
@@ -49,6 +63,8 @@ public class EnemySpawner : MonoBehaviour
             _isReady = false;
             yield return new WaitUntil(() => _isReady);
 
+            _roundState = RoundState.Ongoing;
+
             // Spawn Enemies
             var currentWave = waves[_roundIndex];
             for (int i = 0; i < currentWave.amount; i++)
@@ -56,13 +72,12 @@ public class EnemySpawner : MonoBehaviour
                 var newGO = Instantiate(currentWave.enemy.prefab);
                 InitializeEnemy(newGO, currentWave.enemy);
 
-                _enemiesLeftInWave++;
+                _activeEnemies.Add(newGO);
 
                 yield return new WaitForSeconds(currentWave.timeBetweenSpawns);
             }
 
-            _roundState = RoundState.Ongoing;
-            yield return new WaitUntil(() => _enemiesLeftInWave == 0);
+            yield return new WaitUntil(() => _activeEnemies.Count == 0); // TODO: handle death state
 
             _roundState = RoundState.PostRound;
             yield return new WaitForSeconds(roundEndBufferTime);
@@ -70,6 +85,8 @@ public class EnemySpawner : MonoBehaviour
             OnWaveComplete?.Invoke(_roundIndex);
             _roundIndex++;
         }
+
+        // you win!
     }
 
     void InitializeEnemy(GameObject enemy, Enemy enemyStats)
@@ -85,13 +102,13 @@ public class EnemySpawner : MonoBehaviour
             // connect death events
             follower.OnReachEnd += () =>
             {
+                _activeEnemies.Remove(enemy);
                 Destroy(enemy);
-                _enemiesLeftInWave--;
             };
         }
     }
 
     public int RoundNumber => _roundIndex + 1;
-    public int EnemiesLeft => _enemiesLeftInWave;
+    public int EnemiesLeft => _activeEnemies.Count;
     public string RoundPhase => _roundState.ToString();
 }
