@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -6,8 +7,7 @@ public abstract class BaseTurret : MonoBehaviour
     public static bool isLevelWon;
 
     [Header("Targeting")]
-    [SerializeField] protected Transform player;
-    [SerializeField] protected float playerRadius = 0.5f;
+    [SerializeField] protected float enemyRadius = 0.5f;
 
     [Header("Visualizer")]
     [SerializeField] protected LineRenderer lineRenderer;
@@ -18,21 +18,13 @@ public abstract class BaseTurret : MonoBehaviour
     [SerializeField] protected GameObject projectilePrefab;
     [SerializeField] protected Transform firePoint;
     [SerializeField] protected float fireInterval = 1f;
+    [SerializeField] protected float damage = 2;
 
     protected float _nextFireTime;
 
     protected virtual void Awake()
     {
         isLevelWon = false;
-
-        if (!player)
-        {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-            {
-                player = playerObj.transform;
-            }
-        }
 
         if (!firePoint)
         {
@@ -75,7 +67,7 @@ public abstract class BaseTurret : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (isLevelWon || player == null)
+        if (isLevelWon)
         {
             return;
         }

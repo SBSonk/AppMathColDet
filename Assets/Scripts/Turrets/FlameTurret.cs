@@ -8,19 +8,14 @@ public class FlameTurret : BaseTurret
     [SerializeField] float coneAngle = 60f;
     [SerializeField] float projectileSpeed = 8f;
 
-    protected override void Awake()
-    {
-        // Continuous expulsion rate
-        fireInterval = 0.08f;
-        visualizerColor = new Color(1f, 0.4f, 0.1f, 0.9f);
-        base.Awake();
-    }
-
     public override bool IsEnemyInDetectionArea()
     {
-        if (player == null) return false;
+        foreach (GameObject g in EnemySpawner.Instance.ActiveEnemyObjects)
+        {
+            if (CollisionHelpers.IsPointInConeXZ(transform.position, transform.forward, g.transform.position, range, coneAngle, enemyRadius)) return true;
+        }
 
-        return CollisionHelpers.IsPointInConeXZ(transform.position, transform.forward, player.position, range, coneAngle, playerRadius);
+        return false;
     }
 
     protected override void UpdateRangeVisualizer()
@@ -53,7 +48,7 @@ public class FlameTurret : BaseTurret
         TurretProjectile proj = projObj.GetComponent<TurretProjectile>();
         if (proj != null)
         {
-            proj.Initialize(worldDir, projectileSpeed, player, playerRadius);
+            proj.Initialize(worldDir, projectileSpeed, enemyRadius, damage);
         }
     }
 

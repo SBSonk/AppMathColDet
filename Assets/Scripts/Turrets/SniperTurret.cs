@@ -10,18 +10,14 @@ public class SniperTurret : BaseTurret
 
     bool _wasPlayerInSight;
 
-    protected override void Awake()
-    {
-        fireInterval = 1.2f;
-        visualizerColor = new Color(0.2f, 0.8f, 1f, 0.9f);
-        base.Awake();
-    }
-
     public override bool IsEnemyInDetectionArea()
     {
-        if (player == null) return false;
+        foreach (GameObject g in EnemySpawner.Instance.ActiveEnemyObjects)
+        {
+            if (CollisionHelpers.IsPointInLineSegmentXZ(transform.position, transform.forward, g.transform.position, lineLength, lineWidth, enemyRadius)) return true;
+        }
 
-        return CollisionHelpers.IsPointInLineSegmentXZ(transform.position, transform.forward, player.position, lineLength, lineWidth, playerRadius);
+        return false;
     }
 
     protected override void UpdateRangeVisualizer()
@@ -46,7 +42,7 @@ public class SniperTurret : BaseTurret
 
     protected override void Update()
     {
-        if (isLevelWon || player == null) return;
+        if (isLevelWon) return;
 
         bool inSight = IsEnemyInDetectionArea();
         if (inSight)
@@ -70,7 +66,7 @@ public class SniperTurret : BaseTurret
         TurretProjectile proj = projObj.GetComponent<TurretProjectile>();
         if (proj != null)
         {
-            proj.Initialize(shootDir, bulletSpeed, player, playerRadius);
+            proj.Initialize(shootDir, bulletSpeed, enemyRadius, damage);
         }
     }
 

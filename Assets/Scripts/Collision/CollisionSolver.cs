@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CustomCollision
@@ -73,35 +72,35 @@ namespace CustomCollision
             }
         }
 
-        /// <summary>
-        /// Creates and registers a collider to the physics solver.
-        /// </summary>
-        /// <param name="g">GameObject to assign to.</param>
-        /// <param name="colliderShape">Shape of the collider.</param>
-        /// <returns>The resulting colliderInfo component for assigning values.</returns>
-        public static ColliderInfo AssignCollider(GameObject g, ColliderShape colliderShape)
-        {
-            // Dont allow multiple colliders on object because I dont wanna handle all that
-            if (g.TryGetComponent<ColliderInfo>(out _)) return null;
+        // /// <summary>
+        // /// Creates and registers a collider to the physics solver.
+        // /// </summary>
+        // /// <param name="g">GameObject to assign to.</param>
+        // /// <param name="colliderShape">Shape of the collider.</param>
+        // /// <returns>The resulting colliderInfo component for assigning values.</returns>
+        // public static ColliderInfo AssignCollider(GameObject g, ColliderShape colliderShape)
+        // {
+        //     // Dont allow multiple colliders on object because I dont wanna handle all that
+        //     if (g.TryGetComponent<ColliderInfo>(out _)) return null;
 
-            ColliderInfo result;
+        //     ColliderInfo result;
         
-            switch (colliderShape)
-            {
-                case ColliderShape.Box: 
-                    g.AddComponent<BoxColliderInfo>();
-                    break;
+        //     switch (colliderShape)
+        //     {
+        //         case ColliderShape.Box: 
+        //             g.AddComponent<BoxColliderInfo>();
+        //             break;
 
-                case ColliderShape.Sphere:
-                    g.AddComponent<SphereColliderInfo>();
-                    break;
-            }
+        //         case ColliderShape.Sphere:
+        //             g.AddComponent<SphereColliderInfo>();
+        //             break;
+        //     }
 
-            result = g.GetComponent<ColliderInfo>();
+        //     result = g.GetComponent<ColliderInfo>();
 
-            // TODO: should do err handling here
-            return result;
-        } 
+        //     // TODO: should do err handling here
+        //     return result;
+        // } 
     
         public static bool RegisterCollider(ColliderInfo col)
         {

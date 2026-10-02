@@ -9,18 +9,14 @@ public class ShotgunTurret : BaseTurret
     [SerializeField] int pelletCount = 5;
     [SerializeField] float pelletSpeed = 12f;
 
-    protected override void Awake()
-    {
-        fireInterval = 1.8f;
-        visualizerColor = new Color(0.8f, 0.2f, 1f, 0.9f);
-        base.Awake();
-    }
-
     public override bool IsEnemyInDetectionArea()
     {
-        if (player == null) return false;
+        foreach (GameObject g in EnemySpawner.Instance.ActiveEnemyObjects)
+        {
+            if (CollisionHelpers.IsPointInConeXZ(transform.position, transform.forward, g.transform.position, range, coneAngle, enemyRadius)) return true;
+        }
 
-        return CollisionHelpers.IsPointInConeXZ(transform.position, transform.forward, player.position, range, coneAngle, playerRadius);
+        return false;
     }
 
     protected override void UpdateRangeVisualizer()
@@ -55,7 +51,7 @@ public class ShotgunTurret : BaseTurret
             TurretProjectile proj = projObj.GetComponent<TurretProjectile>();
             if (proj != null)
             {
-                proj.Initialize(worldDir, pelletSpeed, player, playerRadius);
+                proj.Initialize(worldDir, pelletSpeed, enemyRadius, damage);
             }
         }
     }

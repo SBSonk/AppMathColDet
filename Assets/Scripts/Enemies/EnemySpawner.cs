@@ -92,22 +92,30 @@ public class EnemySpawner : MonoBehaviour
     void InitializeEnemy(GameObject enemy, Enemy enemyStats)
     {
         enemy.AddComponent<SplineFollower>();
+        enemy.AddComponent<EnemyState>();
 
-        if (enemy.TryGetComponent<SplineFollower>(out var follower))
+        var follower = enemy.GetComponent<SplineFollower>();
+        var status = enemy.GetComponent<EnemyState>();
+
+        follower.SetSpline(mapSpline);
+        follower.SetSpeed(enemyStats.speed);
+        follower.SetEase(enemyStats.easeType);
+
+        // connect death events
+        follower.OnReachEnd += () =>
         {
-            follower.SetSpline(mapSpline);
-            follower.SetSpeed(enemyStats.speed);
-            follower.SetEase(enemyStats.easeType);
+            status.HandleReachedGoal();
+            _activeEnemies.Remove(enemy);
+        };
 
-            // connect death events
-            follower.OnReachEnd += () =>
-            {
-                _activeEnemies.Remove(enemy);
-                Destroy(enemy);
-            };
-        }
+        status.Initialize(enemyStats.health, enemyStats.damage);
+        status.OnDeath += () =>
+        {
+            _activeEnemies.Remove(enemy);
+        };
     }
 
+    public List<GameObject> ActiveEnemyObjects => _activeEnemies;
     public int RoundNumber => _roundIndex + 1;
     public int EnemiesLeft => _activeEnemies.Count;
     public string RoundPhase => _roundState.ToString();
