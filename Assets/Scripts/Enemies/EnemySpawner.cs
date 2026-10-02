@@ -26,6 +26,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] Spline mapSpline;
 
     public Action<int> OnWaveComplete;
+    public Action<Enemy> OnEnemyDeath;
+    public Action<Enemy> OnEnemyReachedEnd;
 
     List<GameObject> _activeEnemies = new List<GameObject>();
     bool _isReady;
@@ -104,6 +106,11 @@ public class EnemySpawner : MonoBehaviour
         // connect death events
         follower.OnReachEnd += () =>
         {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnEnemyReachedEnd(enemyStats);
+            }
+            OnEnemyReachedEnd?.Invoke(enemyStats);
             status.HandleReachedGoal();
             _activeEnemies.Remove(enemy);
         };
@@ -111,6 +118,11 @@ public class EnemySpawner : MonoBehaviour
         status.Initialize(enemyStats.health, enemyStats.damage);
         status.OnDeath += () =>
         {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnEnemyDeath(enemyStats);
+            }
+            OnEnemyDeath?.Invoke(enemyStats);
             _activeEnemies.Remove(enemy);
         };
     }
