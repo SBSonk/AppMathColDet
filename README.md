@@ -2,6 +2,9 @@ Demo for my __Applied Mathematics for Games__ cool beans subject!
 
 ## APPMATHCOLDET
 
+### Splines (real cool shit)
+https://drive.google.com/file/d/1KRqXjPcfuzFk9duq33EsseSbooad_lXj/view?usp=sharing
+
 ### Turrets stuff
 https://drive.google.com/file/d/1pydekr9TolG1pczJW85MDfk4Y6TVvNrR/view?usp=sharing
 
