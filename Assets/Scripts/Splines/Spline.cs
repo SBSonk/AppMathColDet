@@ -146,12 +146,12 @@ public class Spline : MonoBehaviour
     {
         if (pointParent == null) pointParent = transform;
 
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         EditorApplication.delayCall -= UpdatePoints;
         EditorApplication.delayCall += UpdatePoints;
-#else
+        #else
         UpdatePoints();
-#endif
+        #endif
     }
 
     void UpdatePoints()
@@ -159,7 +159,7 @@ public class Spline : MonoBehaviour
         if (this == null) return;
         if (pointParent == null) pointParent = transform;
 
-        // Clean null references from existing points list
+        // remove dead points
         for (int i = points.Count - 1; i >= 0; i--)
         {
             if (points[i] == null)
@@ -170,7 +170,7 @@ public class Spline : MonoBehaviour
 
         int requiredCount = GetRequiredPointCount();
 
-        // Delete excess points if we have more than needed
+        // remove excess
         if (points.Count > requiredCount)
         {
             for (int i = points.Count - 1; i >= requiredCount; i--)
@@ -185,7 +185,8 @@ public class Spline : MonoBehaviour
                 points.RemoveAt(i);
             }
         }
-        // Spawn only missing points if we have fewer than needed
+        
+        // Spawn missing points
         else if (points.Count < requiredCount)
         {
             while (points.Count < requiredCount)
@@ -195,8 +196,7 @@ public class Spline : MonoBehaviour
                 points.Add(newGo.transform);
             }
         }
-
-        // Assign transforms to spline points without recreating existing GameObjects
+        
         int pointIndex = 0;
         for (int i = 0; i < splinePoints.Count; i++)
         {

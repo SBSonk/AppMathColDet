@@ -10,7 +10,7 @@ public class HealthUI : MonoBehaviour
     [SerializeField] float damageHoldTime = 0.5f, ghostLerpTime = .5f;
     [SerializeField] float liveLerpSpeed = 25f;
 
-    float _targetRatio, _ghostRatio, _ghostRatioStart;
+    float _targetRatio, _ghostRatio, _ghostRatioStart, _liveRatio;
 
     float _holdTimer, _ghostTimer;
 
@@ -23,6 +23,7 @@ public class HealthUI : MonoBehaviour
     {
         _ghostRatio = ratio;
         _targetRatio = ratio;
+        _liveRatio = ratio;
     }
 
     public void SetHealthValue(float ratio)
@@ -48,7 +49,9 @@ public class HealthUI : MonoBehaviour
             _ghostRatio = Mathf.Lerp(_ghostRatioStart, _targetRatio, Ease.OutQuart(progress));
         }
 
-        healthBar.fillAmount = _targetRatio;
+        _liveRatio = Mathf.Lerp(_liveRatio, _targetRatio, Time.deltaTime * liveLerpSpeed);
+
+        healthBar.fillAmount = _liveRatio;
         healthBarGhost.fillAmount = _ghostRatio;
     }
 }
