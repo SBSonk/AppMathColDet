@@ -80,7 +80,7 @@ public abstract class BaseTurret : MonoBehaviour
             return;
         }
 
-        if (IsPlayerInDetectionArea())
+        if (IsEnemyInDetectionArea())
         {
             OnPlayerDetected();
         }
@@ -95,7 +95,7 @@ public abstract class BaseTurret : MonoBehaviour
         }
     }
 
-    public abstract bool IsPlayerInDetectionArea();
+    public abstract bool IsEnemyInDetectionArea();
     protected abstract void UpdateRangeVisualizer();
     protected abstract void Attack();
 

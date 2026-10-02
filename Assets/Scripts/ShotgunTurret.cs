@@ -16,7 +16,7 @@ public class ShotgunTurret : BaseTurret
         base.Awake();
     }
 
-    public override bool IsPlayerInDetectionArea()
+    public override bool IsEnemyInDetectionArea()
     {
         if (player == null) return false;
 
