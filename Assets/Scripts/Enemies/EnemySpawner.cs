@@ -27,6 +27,7 @@ public class EnemySpawner : MonoBehaviour
 
     public Action<int> OnWaveComplete;
     public Action<Enemy> OnEnemyDeath;
+    public Action<Enemy, Vector3> OnEnemyDeathWithPosition;
     public Action<Enemy> OnEnemyReachedEnd;
 
     List<GameObject> _activeEnemies = new List<GameObject>();
@@ -93,11 +94,11 @@ public class EnemySpawner : MonoBehaviour
 
     void InitializeEnemy(GameObject enemy, Enemy enemyStats)
     {
-        enemy.AddComponent<SplineFollower>();
-        enemy.AddComponent<EnemyState>();
-
         var follower = enemy.GetComponent<SplineFollower>();
+        if (follower == null) follower = enemy.AddComponent<SplineFollower>();
+
         var status = enemy.GetComponent<EnemyState>();
+        if (status == null) status = enemy.AddComponent<EnemyState>();
 
         follower.SetSpline(mapSpline);
         follower.SetSpeed(enemyStats.speed);
@@ -118,11 +119,13 @@ public class EnemySpawner : MonoBehaviour
         status.Initialize(enemyStats.health, enemyStats.damage);
         status.OnDeath += () =>
         {
+            Vector3 deathPosition = enemy != null ? enemy.transform.position : Vector3.zero;
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.OnEnemyDeath(enemyStats);
+                GameManager.Instance.OnEnemyDeath(enemyStats, deathPosition);
             }
             OnEnemyDeath?.Invoke(enemyStats);
+            OnEnemyDeathWithPosition?.Invoke(enemyStats, deathPosition);
             _activeEnemies.Remove(enemy);
         };
     }

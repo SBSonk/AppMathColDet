@@ -2,6 +2,9 @@ Demo for my __Applied Mathematics for Games__ cool beans subject!
 
 ## APPMATHCOLDET
 
+### Splines Improved, Added Quadratic + Coins
+https://drive.google.com/file/d/1UW8lh3ES0-owaJIXwldMh_w96Iw_CDFt/view?usp=sharing
+
 ### Splines (real cool shit)
 https://drive.google.com/file/d/1KRqXjPcfuzFk9duq33EsseSbooad_lXj/view?usp=sharing
 

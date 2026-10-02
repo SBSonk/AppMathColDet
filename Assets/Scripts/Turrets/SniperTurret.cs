@@ -12,8 +12,14 @@ public class SniperTurret : BaseTurret
 
     public override bool IsEnemyInDetectionArea()
     {
-        foreach (GameObject g in EnemySpawner.Instance.ActiveEnemyObjects)
+        var activeEnemies = EnemySpawner.Instance != null ? EnemySpawner.Instance.ActiveEnemyObjects : null;
+        if (activeEnemies == null) return false;
+
+        for (int i = 0; i < activeEnemies.Count; i++)
         {
+            GameObject g = activeEnemies[i];
+            if (g == null) continue;
+
             if (CollisionHelpers.IsPointInLineSegmentXZ(transform.position, transform.forward, g.transform.position, lineLength, lineWidth, enemyRadius)) return true;
         }
 

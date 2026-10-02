@@ -15,3 +15,6 @@ MonoBehaviour:
   prefab: {fileID: 1872421876789422733, guid: e4cb695da772cb846a1f10d2d4200124, type: 3}
   easeType: 0
   speed: 0.1
+  health: 10
+  damage: 10
+  coins: 10

@@ -9,15 +9,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] float maxHealth = 100f;
     [SerializeField] float currentHealth = 100f;
 
+    [Header("Coin Settings")]
+    [SerializeField] int currentCoins = 0;
+
     [Header("UI Reference")]
     [SerializeField] HealthUI healthUI;
+    [SerializeField] CoinUI coinUI;
 
     public Action<float, float> OnHealthChanged;
+    public Action<int, Vector3> OnCoinsAdded;
+    public Action<int> OnCoinsChanged;
     public Action OnGameOver;
 
     public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
     public bool IsGameOver => currentHealth <= 0;
+
+    public int CurrentCoins => currentCoins;
+    public int Coins => currentCoins;
 
     void Awake()
     {
@@ -28,6 +37,11 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        if (coinUI == null)
+        {
+            coinUI = FindAnyObjectByType<CoinUI>();
         }
     }
 
@@ -48,7 +62,31 @@ public class GameManager : MonoBehaviour
             healthUI = FindAnyObjectByType<HealthUI>();
         }
 
+        if (coinUI == null)
+        {
+            coinUI = FindAnyObjectByType<CoinUI>();
+        }
+
         UpdateHealthUI(true);
+        if (coinUI != null)
+        {
+            coinUI.SubscribeToGameManager();
+            coinUI.SetCoinsValueInstant(currentCoins);
+        }
+    }
+
+    public void AddCoins(int amount, Vector3 worldPosition)
+    {
+        if (amount <= 0) return;
+
+        currentCoins += amount;
+        OnCoinsAdded?.Invoke(amount, worldPosition);
+        OnCoinsChanged?.Invoke(currentCoins);
+    }
+
+    public void AddCoins(int amount)
+    {
+        AddCoins(amount, Vector3.zero);
     }
 
     public void TakeDamage(float amount)
@@ -82,9 +120,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void OnEnemyDeath(Enemy enemyStats, Vector3 enemyPosition)
+    {
+        int coinAmount = (enemyStats != null && enemyStats.coins > 0) ? enemyStats.coins : 10;
+        AddCoins(coinAmount, enemyPosition);
+    }
+
     public void OnEnemyDeath(Enemy enemyStats)
     {
-        // TODO: jic
+        OnEnemyDeath(enemyStats, Vector3.zero);
     }
 
     void UpdateHealthUI(bool instant)

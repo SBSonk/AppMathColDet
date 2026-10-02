@@ -32,14 +32,20 @@ public class TurretProjectile : MonoBehaviour
         transform.position += _velocity * Time.deltaTime;
         _elapsedTime += Time.deltaTime;
 
-        foreach (GameObject g in EnemySpawner.Instance.ActiveEnemyObjects)
+        var activeEnemies = EnemySpawner.Instance != null ? EnemySpawner.Instance.ActiveEnemyObjects : null;
+        if (activeEnemies != null)
         {
-            if (CollisionHelpers.IntersectsSphere(transform.position, radius, g.transform.position, _hitRadius))
+            for (int i = 0; i < activeEnemies.Count; i++)
             {
-                // TODO: replace with enemy health
-                if (g.TryGetComponent<EnemyState>(out var state)) state.GiveDamage(damage);
-                Destroy(gameObject);
-                return;
+                GameObject g = activeEnemies[i];
+                if (g == null) continue;
+
+                if (CollisionHelpers.IntersectsSphere(transform.position, radius, g.transform.position, _hitRadius))
+                {
+                    if (g.TryGetComponent<EnemyState>(out var state)) state.GiveDamage(damage);
+                    Destroy(gameObject);
+                    return;
+                }
             }
         }
 

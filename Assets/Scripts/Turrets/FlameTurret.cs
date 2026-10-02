@@ -10,8 +10,14 @@ public class FlameTurret : BaseTurret
 
     public override bool IsEnemyInDetectionArea()
     {
-        foreach (GameObject g in EnemySpawner.Instance.ActiveEnemyObjects)
+        var activeEnemies = EnemySpawner.Instance != null ? EnemySpawner.Instance.ActiveEnemyObjects : null;
+        if (activeEnemies == null) return false;
+
+        for (int i = 0; i < activeEnemies.Count; i++)
         {
+            GameObject g = activeEnemies[i];
+            if (g == null) continue;
+
             if (CollisionHelpers.IsPointInConeXZ(transform.position, transform.forward, g.transform.position, range, coneAngle, enemyRadius)) return true;
         }
 
